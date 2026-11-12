@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ерлан & Айгерім — той шақыруы</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Lora:wght@400;500&display=swap&subset=cyrillic-ext" rel="stylesheet">
+<style>
+  :root {
+    --sky: #E3ECF4;
+    --paper: #F7FAFC;
+    --ink: #15294A;
+    --ink-soft: #4A5C7A;
+    --gold: #B8913F;
+    --rose: #A8445F;
+    --line: #C9D6E4;
+    color-scheme: light;
+    box-sizing: border-box;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --sky: #0F1B30; --paper: #16243D; --ink: #EAF0F7; --ink-soft: #A9B8CE;
+      --gold: #D8B565; --rose: #E07A95; --line: #2B3D5C; color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --sky: #0F1B30; --paper: #16243D; --ink: #EAF0F7; --ink-soft: #A9B8CE;
+    --gold: #D8B565; --rose: #E07A95; --line: #2B3D5C; color-scheme: dark;
+  }
+  *, *::before, *::after { box-sizing: inherit; }
+  html { scroll-padding-top: env(safe-area-inset-top, 0px); }
+  body {
+    margin: 0; background: var(--sky); color: var(--ink);
+    font-family: "Lora", Georgia, "Times New Roman", serif;
+    font-size: 1.05rem; line-height: 1.7;
+  }
+  .lang {
+    position: fixed; top: 0; right: 0; z-index: 5;
+    padding: calc(env(safe-area-inset-top, 0px) + 12px) 14px 0 0;
+    display: flex; gap: 4px;
+  }
+  .lang button {
+    font: inherit; font-size: .85rem; cursor: pointer;
+    background: var(--paper); color: var(--ink-soft);
+    border: 1px solid var(--line); border-radius: 999px; padding: 4px 12px;
+  }
+  .lang button[aria-pressed="true"] { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+  main { max-width: 34rem; margin: 0 auto; padding: 0 20px 64px; }
+
+  .hero { min-height: 100svh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 56px 0 32px; }
+  .shanyrak { width: min(78vw, 300px); height: auto; color: var(--gold); }
+  .shanyrak .draw { stroke-dasharray: 1200; stroke-dashoffset: 1200; animation: draw 2.6s ease-out forwards; }
+  .names { opacity: 0; animation: appear 1.2s ease-out 1.6s forwards; }
+  @keyframes draw { to { stroke-dashoffset: 0; } }
+  @keyframes appear { to { opacity: 1; } }
+  @media (prefers-reduced-motion: reduce) {
+    .shanyrak .draw { animation: none; stroke-dashoffset: 0; }
+    .names { animation: none; opacity: 1; }
+  }
+  h1 {
+    font-family: "Cormorant Garamond", Georgia, serif; font-weight: 400;
+    font-size: clamp(2.8rem, 12vw, 4.2rem); line-height: 1; margin: 28px 0 8px;
+  }
+  h1 .amp { display: block; font-style: italic; font-size: .5em; color: var(--rose); margin: 6px 0; }
+  .date-line { font-family: "Cormorant Garamond", Georgia, serif; font-size: 1.5rem; color: var(--ink-soft); margin: 0; }
+
+  section { background: var(--paper); border-radius: 28px; padding: 32px 26px; margin-top: 18px; }
+  h2 { font-family: "Cormorant Garamond", Georgia, serif; font-weight: 600; font-size: 1.9rem; line-height: 1.2; margin: 0 0 14px; color: var(--ink); }
+  .invite-text { text-align: center; }
+  .invite-text p { margin: 0 0 12px; }
+  .hosts { color: var(--rose); font-style: italic; }
+
+  .countdown { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; text-align: center; }
+  .countdown div { padding: 10px 0; }
+  .countdown b { display: block; font-family: "Cormorant Garamond", Georgia, serif; font-size: 2.4rem; font-weight: 600; line-height: 1; color: var(--gold); }
+  .countdown span { font-size: .8rem; color: var(--ink-soft); }
+
+  .program { list-style: none; margin: 0; padding: 0; }
+  .program li { display: grid; grid-template-columns: 4.2rem 1fr; gap: 12px; padding: 10px 0; border-top: 1px solid var(--line); }
+  .program li:first-child { border-top: 0; }
+  .program time { font-weight: 500; color: var(--rose); }
+
+  .place p { margin: 0 0 4px; }
+  .btn {
+    display: inline-block; font: inherit; font-weight: 500; text-align: center; text-decoration: none; cursor: pointer;
+    background: var(--ink); color: var(--paper); border: 0; border-radius: 999px; padding: 12px 22px; margin-top: 14px;
+  }
+  .btn:focus-visible, input:focus-visible, select:focus-visible, .lang button:focus-visible { outline: 3px solid var(--gold); outline-offset: 2px; }
+
+  form { display: grid; gap: 14px; }
+  label { display: grid; gap: 6px; font-size: .95rem; color: var(--ink-soft); }
+  input, select {
+    font: inherit; color: var(--ink); background: var(--sky);
+    border: 1px solid var(--line); border-radius: 14px; padding: 11px 14px; width: 100%;
+  }
+  .hint { font-size: .85rem; color: var(--rose); min-height: 1.2em; margin: 0; }
+  footer { text-align: center; margin-top: 36px; font-family: "Cormorant Garamond", Georgia, serif; font-size: 1.3rem; color: var(--ink-soft); }
+</style>
+</head>
+<body>
+<div class="lang" role="group" aria-label="Тіл / Язык">
+  <button type="button" data-lang-btn="kz" aria-pressed="true">Қаз</button>
+  <button type="button" data-lang-btn="ru" aria-pressed="false">Рус</button>
+</div>
+
+<main>
+  <header class="hero">
+    <!-- Шаңырақ -->
+    <svg class="shanyrak" viewBox="0 0 300 300" fill="none" stroke="currentColor" aria-hidden="true">
+      <g stroke-width="2">
+        <circle class="draw" cx="150" cy="150" r="120"/>
+        <circle class="draw" cx="150" cy="150" r="104"/>
+        <path class="draw" d="M100 58 Q150 150 100 242 M150 46 L150 254 M200 58 Q150 150 200 242"/>
+        <path class="draw" d="M58 100 Q150 150 242 100 M46 150 L254 150 M58 200 Q150 150 242 200"/>
+      </g>
+      <g stroke-width="1.4" class="draw">
+        <path class="draw" d="M150 30 L150 4 M150 270 L150 296 M30 150 L4 150 M270 150 L296 150
+          M65 65 L46 46 M235 65 L254 46 M65 235 L46 254 M235 235 L254 254
+          M104 39 L94 15 M196 39 L206 15 M104 261 L94 285 M196 261 L206 285
+          M39 104 L15 94 M39 196 L15 206 M261 104 L285 94 M261 196 L285 206"/>
+      </g>
+    </svg>
+    <div class="names">
+      <h1>Ерлан<span class="amp">&amp;</span>Айгерім</h1>
+      <p class="date-line" data-i18n="date">20 маусым 2027 · 18:00</p>
+    </div>
+  </header>
+
+  <section class="invite-text">
+    <h2 data-i18n="dearTitle">Құрметті қонақтар!</h2>
+    <p data-i18n="invite">Сіздерді ұлымыз Ерлан мен келініміз Айгерімнің шаңырақ көтеру тойына арналған салтанатты ақ дастарханымыздың қадірлі қонағы болуға шақырамыз.</p>
+    <p class="hosts" data-i18n="hosts">Той иелері: Сейітқалиевтер отбасы</p>
+  </section>
+
+  <section>
+    <h2 data-i18n="countTitle">Тойға дейін</h2>
+    <div class="countdown" aria-live="polite">
+      <div><b id="d">0</b><span data-i18n="days">күн</span></div>
+      <div><b id="h">0</b><span data-i18n="hours">сағат</span></div>
+      <div><b id="m">0</b><span data-i18n="mins">минут</span></div>
+      <div><b id="s">0</b><span data-i18n="secs">секунд</span></div>
+    </div>
+  </section>
+
+  <section>
+    <h2 data-i18n="progTitle">Той бағдарламасы</h2>
+    <ol class="program">
+      <li><time>17:30</time><span data-i18n="p1">Қонақтарды қарсы алу</span></li>
+      <li><time>18:00</time><span data-i18n="p2">Тойдың ашылуы, ата-ана батасы</span></li>
+      <li><time>19:30</time><span data-i18n="p3">Беташар</span></li>
+      <li><time>21:00</time><span data-i18n="p4">Тойдың торты</span></li>
+      <li><time>23:00</time><span data-i18n="p5">Тойдың соңы</span></li>
+    </ol>
+  </section>
+
+  <section class="place">
+    <h2 data-i18n="placeTitle">Мекенжай</h2>
+    <p><strong data-i18n="venue">«Алтын Сарай» мейрамханасы</strong></p>
+    <p data-i18n="address">Астана қ., Тұран даңғылы, 00</p>
+    <a class="btn" id="mapBtn" href="https://2gis.kz/astana/search/%D0%90%D0%BB%D1%82%D1%8B%D0%BD%20%D0%A1%D0%B0%D1%80%D0%B0%D0%B9" target="_blank" rel="noopener" data-i18n="mapBtn">Картадан ашу</a>
+  </section>
+
+  <section>
+    <h2 data-i18n="rsvpTitle">Келетініңізді растаңыз</h2>
+    <form id="rsvp" novalidate>
+      <label><span data-i18n="nameLbl">Аты-жөніңіз</span>
+        <input id="guestName" autocomplete="name" required>
+      </label>
+      <label><span data-i18n="comingLbl">Келесіз бе?</span>
+        <select id="coming">
+          <option value="yes" data-i18n="yes">Иә, келемін</option>
+          <option value="no" data-i18n="no">Өкінішке қарай, келе алмаймын</option>
+        </select>
+      </label>
+      <label><span data-i18n="countLbl">Қанша адам боласыздар?</span>
+        <select id="count">
+          <option>1</option><option>2</option><option>3</option><option>4</option><option>5</option>
+        </select>
+      </label>
+      <p class="hint" id="hint" role="alert"></p>
+      <button class="btn" type="submit" data-i18n="send">WhatsApp арқылы жіберу</button>
+    </form>
+  </section>
+
+  <footer data-i18n="footer">Тойымыздың қадірлі қонағы болыңыз!</footer>
+</main>
+
+<script>
+  // ==== Тапсырыс берушінің деректері — осында өзгертіңіз ====
+  const EVENT_DATE = new Date("2027-06-20T18:00:00+05:00");
+  const WHATSAPP_NUMBER = "77000000000"; // организатордың нөмірі
+
+  const T = {
+    kz: {
+      date: "20 маусым 2027 · 18:00",
+      dearTitle: "Құрметті қонақтар!",
+      invite: "Сіздерді ұлымыз Ерлан мен келініміз Айгерімнің шаңырақ көтеру тойына арналған салтанатты ақ дастарханымыздың қадірлі қонағы болуға шақырамыз.",
+      hosts: "Той иелері: Сейітқалиевтер отбасы",
+      countTitle: "Тойға дейін", days: "күн", hours: "сағат", mins: "минут", secs: "секунд",
+      progTitle: "Той бағдарламасы",
+      p1: "Қонақтарды қарсы алу", p2: "Тойдың ашылуы, ата-ана батасы", p3: "Беташар", p4: "Тойдың торты", p5: "Тойдың соңы",
+      placeTitle: "Мекенжай", venue: "«Алтын Сарай» мейрамханасы", address: "Астана қ., Тұран даңғылы, 00", mapBtn: "Картадан ашу",
+      rsvpTitle: "Келетініңізді растаңыз", nameLbl: "Аты-жөніңіз", comingLbl: "Келесіз бе?",
+      yes: "Иә, келемін", no: "Өкінішке қарай, келе алмаймын", countLbl: "Қанша адам боласыздар?",
+      send: "WhatsApp арқылы жіберу", needName: "Аты-жөніңізді жазыңыз",
+      footer: "Тойымыздың қадірлі қонағы болыңыз!",
+      msgYes: (n, c) => `Сәлеметсіз бе! Мен, ${n}, тойға келемін. Адам саны: ${c}.`,
+      msgNo: (n) => `Сәлеметсіз бе! Мен, ${n}, өкінішке қарай тойға келе алмаймын. Бақытты болыңыздар!`,
+      done: "Той басталды!"
+    },
+    ru: {
+      date: "20 июня 2027 · 18:00",
+      dearTitle: "Дорогие гости!",
+      invite: "Приглашаем вас стать почётными гостями нашего праздничного дастархана в честь свадьбы нашего сына Ерлана и невестки Айгерим.",
+      hosts: "С уважением, семья Сейиткалиевых",
+      countTitle: "До тоя осталось", days: "дней", hours: "часов", mins: "минут", secs: "секунд",
+      progTitle: "Программа вечера",
+      p1: "Встреча гостей", p2: "Открытие тоя, благословение родителей", p3: "Беташар", p4: "Свадебный торт", p5: "Завершение вечера",
+      placeTitle: "Место проведения", venue: "Ресторан «Алтын Сарай»", address: "г. Астана, проспект Туран, 00", mapBtn: "Открыть на карте",
+      rsvpTitle: "Подтвердите присутствие", nameLbl: "Ваше имя", comingLbl: "Вы придёте?",
+      yes: "Да, приду", no: "К сожалению, не смогу", countLbl: "Сколько вас будет?",
+      send: "Отправить в WhatsApp", needName: "Пожалуйста, напишите ваше имя",
+      footer: "Будем рады видеть вас на нашем празднике!",
+      msgYes: (n, c) => `Здравствуйте! Я, ${n}, приду на той. Количество гостей: ${c}.`,
+      msgNo: (n) => `Здравствуйте! Я, ${n}, к сожалению, не смогу прийти. Желаю счастья молодым!`,
+      done: "Той начался!"
+    }
+  };
+
+  let lang = "kz";
+  try { lang = localStorage.getItem("lang") || "kz"; } catch (e) {}
+
+  function setLang(l) {
+    lang = l;
+    document.documentElement.lang = l === "kz" ? "kk" : "ru";
+    document.querySelectorAll("[data-i18n]").forEach(el => {
+      const v = T[l][el.dataset.i18n];
+      if (typeof v === "string") el.textContent = v;
+    });
+    document.querySelectorAll("[data-lang-btn]").forEach(b =>
+      b.setAttribute("aria-pressed", b.dataset.langBtn === l ? "true" : "false"));
+    document.getElementById("hint").textContent = "";
+    try { localStorage.setItem("lang", l); } catch (e) {}
+  }
+  document.querySelectorAll("[data-lang-btn]").forEach(b =>
+    b.addEventListener("click", () => setLang(b.dataset.langBtn)));
+  setLang(lang);
+
+  function tick() {
+    const diff = EVENT_DATE - new Date();
+    if (diff <= 0) {
+      document.querySelector(".countdown").textContent = T[lang].done;
+      return;
+    }
+    const s = Math.floor(diff / 1000);
+    document.getElementById("d").textContent = Math.floor(s / 86400);
+    document.getElementById("h").textContent = Math.floor(s % 86400 / 3600);
+    document.getElementById("m").textContent = Math.floor(s % 3600 / 60);
+    document.getElementById("s").textContent = s % 60;
+  }
+  tick(); setInterval(tick, 1000);
+
+  document.getElementById("rsvp").addEventListener("submit", e => {
+    e.preventDefault();
+    const name = document.getElementById("guestName").value.trim();
+    const hint = document.getElementById("hint");
+    if (!name) { hint.textContent = T[lang].needName; document.getElementById("guestName").focus(); return; }
+    hint.textContent = "";
+    const coming = document.getElementById("coming").value === "yes";
+    const count = document.getElementById("count").value;
+    const text = coming ? T[lang].msgYes(name, count) : T[lang].msgNo(name);
+    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`, "_blank", "noopener");
+  });
+</script>
+</body>
+</html>
